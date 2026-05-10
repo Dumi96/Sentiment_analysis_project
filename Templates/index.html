@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Sentiment Dashboard</title>
+
+    <link rel="stylesheet"
+        href="{{url_for('static', filename='css/main.css')}}">
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <!-- LEFT SIDE -->
+        <div class="col-md-5 left-panel">
+
+            <div class="hero-section">
+
+                <h1>🤖 AI Sentiment Analysis</h1>
+
+                <p>
+                    Analyze customer reviews using Artificial Intelligence
+                </p>
+
+                <img src="../static/products/prod1.jpg">
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="col-md-7 right-panel">
+
+            <div class="dashboard">
+
+                <h2>📊 Live Dashboard</h2>
+
+                <!-- STATS -->
+                <div class="stats-container">
+
+                    <div class="card-box positive">
+                        <h3>{{data.positive}}</h3>
+                        <p>Positive 😊</p>
+                    </div>
+
+                    <div class="card-box negative">
+                        <h3>{{data.negative}}</h3>
+                        <p>Negative 😡</p>
+                    </div>
+
+                    <div class="card-box neutral">
+                        <h3>{{data.neutral}}</h3>
+                        <p>Neutral 😐</p>
+                    </div>
+
+                </div>
+
+                <!-- PROGRESS -->
+                <div class="progress-section">
+
+                    <h5>Positive Score</h5>
+
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-success"
+                            style="width: {{data.positive_percent}}%">
+                            {{data.positive_percent}}%
+                        </div>
+                    </div>
+
+                    <h5>Negative Score</h5>
+
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-danger"
+                            style="width: {{data.negative_percent}}%">
+                            {{data.negative_percent}}%
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- FORM -->
+                <form method="POST">
+
+                    <textarea
+                        name="text"
+                        placeholder="Enter customer review..."
+                        required></textarea>
+
+                    <button class="submit-btn">
+                        Analyze Sentiment
+                    </button>
+
+                </form>
+
+                <!-- REVIEWS -->
+                <div class="review-section">
+
+                    <h3>📝 Review History</h3>
+
+                    {% for review in data.reviews %}
+
+                    <div class="review-card">
+
+                        <div class="review-top">
+
+                            <h5>
+                                {{review.emoji}}
+                                {{review.prediction}}
+                            </h5>
+
+                            <span>
+                                {{review.time}}
+                            </span>
+
+                        </div>
+
+                        <p>{{review.text}}</p>
+
+                        <small>
+                            AI Confidence:
+                            {{review.confidence}}%
+                        </small>
+
+                        <div class="ai-box">
+                            🤖 {{review.ai_message}}
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                <a href="/clear" class="clear-btn">
+                    Clear History
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
